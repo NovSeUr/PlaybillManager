@@ -184,11 +184,10 @@ class PostersManagerTest {
 
     @Test
     public void testShouldFindById() {
-        repo.save(film1);
-        repo.save(film2);
-        repo.save(film3);
-        repo.save(film4);
-        repo.save(film5);
+        PosterRepository repo = Mockito.mock(PosterRepository.class);
+        Posters[] postersLine = {film5};
+        doReturn(postersLine).when(repo).findById(5);
+
 
 
         Posters[] expected = {film5};
@@ -210,7 +209,9 @@ class PostersManagerTest {
 
     @Test
     public void testShouldRemoveByIdIfOne() {
-        repo.save(film1);
+        PosterRepository repo = Mockito.mock(PosterRepository.class);
+        Posters[] postersLine = {};
+        doReturn(postersLine).when(repo).removeById(1);
 
 
         Posters[] expected = new Posters[0];
