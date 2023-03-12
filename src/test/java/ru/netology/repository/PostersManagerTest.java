@@ -1,10 +1,13 @@
 package ru.netology.repository;
-
+import org.mockito.Mockito;
+import org.mockito.Mockito.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Posters;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
+
 
 class PostersManagerTest {
 
@@ -19,7 +22,9 @@ class PostersManagerTest {
     Posters film9 = new Posters(9,108,"Film 9");
     Posters film10 = new Posters(10,109,"Film 10");
     Posters film11 = new Posters(11,110,"Film 11");
-    PostersManager manager = new PostersManager(10);
+    PosterRepository repo = new PosterRepository();
+    PostersManager manager = new PostersManager(10,repo);
+
 
     @Test
     public void testShouldFindAll(){
@@ -59,6 +64,7 @@ class PostersManagerTest {
     }
     @Test
     public void testShouldFindLastIfAll(){
+        repo.findAll();
         manager.add(film1);
         manager.add(film2);
         manager.add(film3);
@@ -132,7 +138,7 @@ class PostersManagerTest {
 
     @Test
     public void testShouldSetNewLimit(){
-        PostersManager manager = new PostersManager(11);
+        PostersManager manager = new PostersManager(11, repo);
         manager.add(film1);
         manager.add(film2);
         manager.add(film3);
@@ -152,7 +158,7 @@ class PostersManagerTest {
     }
     @Test
     public void testShouldSetLimitByDefault(){
-        PostersManager manager = new PostersManager();
+        PostersManager manager = new PostersManager(repo);
         manager.add(film1);
         manager.add(film2);
         manager.add(film3);
@@ -170,5 +176,71 @@ class PostersManagerTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
+    @Test
+    public void testShouldFindById(){
+        repo.save(film1);
+        repo.save(film2);
+        repo.save(film3);
+        repo.save(film4);
+        repo.save(film5);
 
+
+        Posters[] expected = {film5};
+        Posters[] actual = repo.findById(5);
+
+        Assertions.assertArrayEquals(expected, actual);
+
+    }
+
+    @Test
+    public void testShouldRemoveAll () {
+        repo.save (film1);
+
+        Posters [] expected = new Posters [0];
+        Posters [] actual = repo.removeAll();
+
+        Assertions.assertArrayEquals(expected,actual);
+    }
+
+    @Test
+    public void testShouldRemoveByIdIfOne () {
+        PosterRepository rep = Mockito.mock(PosterRepository.class);
+        repo.save(film1);
+
+        Posters [] expected = new Posters[0];
+        Posters [] actual = repo.removeById(1);
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testShouldRemoveByIdIfTwo () {
+        repo.save(film1);
+        repo.save(film2);
+
+        Posters[] expected = {film2};
+        Posters[] actual = repo.removeById(1);
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testShouldRemoveByIdIfMax () {
+        repo.save(film1);
+        repo.save(film2);
+        repo.save(film3);
+        repo.save(film4);
+        repo.save(film5);
+        repo.save(film6);
+        repo.save(film7);
+        repo.save(film8);
+        repo.save(film9);
+        repo.save(film10);
+
+
+        Posters[] expected = {film2, film3, film4, film5, film6, film7, film8, film9, film10};
+        Posters[] actual = repo.removeById(1);
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
 }
