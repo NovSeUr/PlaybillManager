@@ -189,7 +189,6 @@ class PostersManagerTest {
         doReturn(postersLine).when(repo).findById(5);
 
 
-
         Posters[] expected = {film5};
         Posters[] actual = repo.findById(5);
 
