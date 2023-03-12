@@ -204,8 +204,8 @@ class PostersManagerTest {
 
     @Test
     public void testShouldRemoveByIdIfOne () {
-        PosterRepository rep = Mockito.mock(PosterRepository.class);
         repo.save(film1);
+
 
         Posters [] expected = new Posters[0];
         Posters [] actual = repo.removeById(1);
