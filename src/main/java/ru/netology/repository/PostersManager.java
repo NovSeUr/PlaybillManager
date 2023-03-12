@@ -2,31 +2,32 @@ package ru.netology.repository;
 import ru.netology.domain.Posters;
 
 public class PostersManager {
-    private  PosterRepository repo;
-
+    private Posters[] postersLine = new Posters[0];
     private int limit;
 
-    public PostersManager (PosterRepository repo){
-        this.repo = repo;
+    public PostersManager (){
         this.limit = 10;
     }
-    public PostersManager (int limit, PosterRepository repo){
+    public PostersManager (int limit){
         this.limit = limit;
-        this.repo = repo;
     }
 
     public void add(Posters poster){
-        repo.save(poster);
+        Posters[] tmp = new Posters[postersLine.length + 1];
+        for (int i = 0; i < postersLine.length; i++){
+            tmp[i]= postersLine[i];
+        }
+        tmp[tmp.length-1] = poster;
+        postersLine = tmp;
     }
 
     public Posters[] findAll() {
-        Posters [] all = repo.findAll();
-        return all;
+        return postersLine;
     }
 
     public Posters [] findLast(){
         int reversedLength;
-        Posters[] all = repo.findAll();
+        Posters[] all = findAll();
         if(all.length < limit){
             reversedLength = all.length;
         }
