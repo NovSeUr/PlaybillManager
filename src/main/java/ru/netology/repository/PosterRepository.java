@@ -17,7 +17,7 @@ public class PosterRepository {
             tmp[i] = postersLine[i];
         }
         tmp[tmp.length - 1] = poster;
-         postersLine = tmp;
+        postersLine = tmp;
     }
 
     public Posters[] removeById(int id) {
@@ -37,15 +37,16 @@ public class PosterRepository {
         Posters[] tmp = new Posters[1];
         int copyToIndex = 0;
         for (Posters poster : postersLine) {
-            if(poster.getId() ==id){
-            tmp[copyToIndex] = poster;
+            if (poster.getId() == id) {
+                tmp[copyToIndex] = poster;
+            }
         }
-    }
-    postersLine = tmp;
+        postersLine = tmp;
         return postersLine;
     }
+
     public Posters[] removeAll() {
-        Posters[] postersLine = new Posters [0];
+        Posters[] postersLine = new Posters[0];
         return postersLine;
     }
 
